@@ -1,0 +1,8 @@
+# 本地配置与登录态：绝不提交
+config.yaml
+sessions/
+screenshots/
+*.log
+__pycache__/
+.venv/
+.DS_Store

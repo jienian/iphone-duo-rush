@@ -1,0 +1,49 @@
+# =====================================================================
+# iPhone Duo 抢购助手 — 配置文件
+# 用法: cp config.example.yaml config.yaml，然后填入你的信息。
+# config.yaml 已加入 .gitignore，不会进入 git（里面可能有推送 key）。
+# =====================================================================
+
+# 预购开启时间（北京时间）。到点前 5 分钟启动 `python run.py rush`。
+drop_time: "2026-10-16 20:00:00 +08:00"
+
+# 默认 ASSISTED 模式：脚本自动走到"核对订单信息"页后停下并通知你，
+# 由你手动点最后的"提交订单/付款"。除非你非常确定，否则不要打开。
+auto_submit: false
+
+channels:
+  apple:
+    enabled: true
+    # 10 月 12 日苹果开放 Get Ready 后，到 apple.com/cn 的 Duo 商品页
+    # 查看网页源代码，搜正则 [A-Z0-9]{5}CH/A，找到你配置（存储/颜色）
+    # 对应的编号填入。Duo 的编号 10 月 12 日前尚未公布。
+    part_number: ""          # 例: "MYT53CH/A"（占位，未发布前留空）
+    storage: "512GB"        # 256GB / 512GB / 1TB / 2TB
+    color: "星空黑"          # 星空黑 (Night Sky) / 星空白 (Star White)
+    quantity: 2             # 购买数量（苹果官网每人限购 2 台）
+    fulfillment: "pickup"   # pickup=到店自提 / delivery=送货上门
+    pickup_stores:          # 自提门店（按顺序尝试，哪个有货选哪个）
+      - "珠江新城"
+      - "天环广场"
+    pickup_date: "10月23日"  # 自提日期（发售日当天，星期五）
+    # 自提/配送邮编（广州示例）。monitor 用它查附近门店库存。
+    location_zip: "510000"
+    store_id: ""            # 可选：指定自提门店，如 "R577"，留空则查全部
+    poll_interval_sec: 15
+
+  jd:
+    enabled: false   # 用户已确认：只抢苹果官网，不抢京东/淘宝。模块保留备用。
+    # 10 月 16 日前打开京东 Duo 预约/商品页，URL 里 ?sku= 后面的数字即 sku_id。
+    sku_id: ""              # 例: "100012043978"（占位，未发布前留空）
+    area_id: "1_72_2799_0"  # 广州：省_市_区_镇。北京示例: 1_72_4137_0
+    vender_id: ""           # 可选：商品页看到的 venderId（Apple 自营社区常用 1000000154）
+    cat: ""                 # 可选：商品页看到的 cat 分类号
+    poll_interval_sec: 10
+
+notify:
+  bark_key: ""          # Bark App 的 key，留空 = 不推送（只打印到控制台）
+  server_chan_key: ""   # Server酱 SendKey（sctapi.ftqq.com），留空 = 不推送
+
+paths:
+  session_dir: "./sessions"       # Playwright 持久化登录态目录（已 gitignore）
+  screenshots: "./screenshots"   # 每步截图目录（已 gitignore）
